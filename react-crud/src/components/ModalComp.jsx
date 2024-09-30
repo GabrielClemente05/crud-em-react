@@ -17,6 +17,37 @@ import { useState } from "react";
 const ModalComp = ({data, setData, dataEdit, isOpen, onClose}) => {
     const[name, setName] = useState(dataEdit.name || "");
     const[email, setEmail] = useState(dataEdit.email || "");
+
+    const handleSave = () => {
+        if (!name || !email) return;
+    
+        if (emailAlreadyExists()) {
+            return alert("Email já cadastrado");
+        }
+
+        if (Object.keys(dataEdit).length){
+            data[dataEdit.index] = { name, email };
+        }
+
+        const newDataArray = !Object.keys(dataEdit).length
+            ? [...dataEdit(data ? data : []), { name, email}]
+            : [...(data ? data : [])];
+
+            localStorage.setItem("cad_cliente", JSON.stringify(newDataArray));
+
+            setData(newDataArray);
+
+            onClose();
+        }
+
+        
+        const emailAlreadyExists = () => {
+            if (dataEdit.email !== email && data?.length){
+            return data.find((item) => item.email === email);
+        }
+        return false;
+    }
+
     return (
         <>
         <Modal isOpen={isOpen} onClose={onClose}>
