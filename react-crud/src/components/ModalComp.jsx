@@ -15,8 +15,8 @@ import {
 import { useState } from "react";
 
 const ModalComp = ({data, setData, dataEdit, isOpen, onClose}) => {
-    const[name, setName] = useState(dataEdit.name || "");
-    const[email, setEmail] = useState(dataEdit.email || "");
+    const [name, setName] = useState(dataEdit.name || "");
+    const [email, setEmail] = useState(dataEdit.email || "");
 
     const handleSave = () => {
         if (!name || !email) return;
@@ -30,7 +30,7 @@ const ModalComp = ({data, setData, dataEdit, isOpen, onClose}) => {
         }
 
         const newDataArray = !Object.keys(dataEdit).length
-            ? [...dataEdit(data ? data : []), { name, email}]
+            ? [...(data ? data : []), { name, email}]
             : [...(data ? data : [])];
 
             localStorage.setItem("cad_cliente", JSON.stringify(newDataArray));
@@ -58,21 +58,22 @@ const ModalComp = ({data, setData, dataEdit, isOpen, onClose}) => {
                 <ModalBody>
                     <FormControl display="flex" flexDir="column" gap={4}>
                         <Box>
-                            <FormLabel>
+                            <FormLabel>Nome</FormLabel>
                                 <Input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                    type="text"
+                                    placeholder="Inserir o nome"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                 />
-                            </FormLabel>
                         </Box>
                         <Box>
                             <FormLabel>E-mail</FormLabel>
-                            <Input
-                                type="email"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
+                                <Input
+                                    type="email"
+                                    placeholder="Inserir o e-mail"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                         </Box>
                     </FormControl>
                 </ModalBody>
